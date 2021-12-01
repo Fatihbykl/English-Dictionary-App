@@ -9,7 +9,7 @@ export const globalStyles = StyleSheet.create({
 
     row_button: {
       width: '98%',
-      height: 100,
+      minHeight: 100,
       backgroundColor: '#fff',
       padding: 30,
       marginVertical: 10,
@@ -26,6 +26,18 @@ export const globalStyles = StyleSheet.create({
     row_button_text: {
       fontSize:12,
       color: "#aeb4b8",
+    },
+
+    note_header: {
+      fontSize: 18,
+      fontWeight: "bold",
+      color: "black",
+      marginBottom: 5,
+    },
+
+    note_text: {
+      fontSize: 14,
+      color: "#707478",
     },
     
     input: {
@@ -47,5 +59,27 @@ export const globalStyles = StyleSheet.create({
       height: 40,
       justifyContent: "center",
       marginTop: 20,
+    },
+
+    hr: {
+      borderBottomColor: '#aeb4b8',
+      borderBottomWidth: 1,
+    },
+
+    modal: {
+      minHeight: 200,
+      backgroundColor: 'white',
+      marginTop:'40%',
+      marginHorizontal:20,
+      borderRadius: 20,
+      padding: 35,
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
     }
 });

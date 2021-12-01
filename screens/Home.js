@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Button, TouchableHighlight, TouchableOpacity } from 'react-native';
-import { globalStyles } from '../styles/globalStyles';
 import { Ionicons, Feather, FontAwesome, Foundation, MaterialIcons } from '@expo/vector-icons';
+import { globalStyles } from '../styles/globalStyles';
 
 export default function Home({ navigation }) {
 
@@ -68,10 +68,6 @@ export default function Home({ navigation }) {
                     </TouchableOpacity>
                 </View>
             </View>
-
-
-            <Text>Home Screen</Text>
-            <Button title='Screen' onPress={pressHandler} />
         </View>
     )
 }

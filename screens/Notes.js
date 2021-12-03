@@ -55,7 +55,7 @@ export default function Notes() {
 
     const renderNotes = ({ item }) => {
         return(
-            <View style={[globalStyles.row_button, {flexDirection:"column", alignItems: "center"}]}>
+            <View style={[globalStyles.row_button, {flexDirection:"column"}]}>
                 <View style={{flex:1}}>
                 <Text style={globalStyles.note_header}>{item.noteTitle}</Text>
                 <Text style={globalStyles.note_text}>{item.note}</Text>
@@ -66,7 +66,7 @@ export default function Notes() {
 
     useEffect(() => {
         getNotes();
-    })
+    }, [])
     
 
     return(

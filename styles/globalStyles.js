@@ -62,7 +62,7 @@ export const globalStyles = StyleSheet.create({
     },
 
     hr: {
-      borderBottomColor: '#aeb4b8',
+      borderBottomColor: '#0869ae',
       borderBottomWidth: 1,
     },
 
@@ -81,5 +81,32 @@ export const globalStyles = StyleSheet.create({
       shadowOpacity: 0.25,
       shadowRadius: 4,
       elevation: 5,
-    }
+    },
+
+    header: {
+      width:'100%',
+      backgroundColor: '#04426f',
+      height: 50,
+      flexDirection: "row",
+      alignItems: "center",
+      paddingHorizontal: 10,
+    },
+
+    wordPageContainer: {
+      paddingHorizontal: 10,
+      paddingVertical: 20,
+      width: '100%',
+    },
+
+    wordPageHeader: {
+      fontSize: 20,
+      fontWeight: "bold",
+      color: "black",
+      marginBottom: 20,
+    },
+
+    wordPageText: {
+      color: "black",
+      fontSize: 16,
+    },
 });

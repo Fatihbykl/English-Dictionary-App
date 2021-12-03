@@ -9,6 +9,7 @@ import Search from './screens/Search';
 import Notes from './screens/Notes';
 import { FontAwesome } from '@expo/vector-icons';
 import { openDatabase } from 'expo-sqlite';
+import WordPage from './screens/WordPage';
 
 const Stack = createNativeStackNavigator();
 export const db = openDatabase('database.db');
@@ -94,6 +95,19 @@ export default function App() {
         component={Notes}
         options={{
           title: 'Notes',
+          headerStyle: {
+            backgroundColor: '#0869ae',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }} />
+        <Stack.Screen 
+        name="WordPage" 
+        component={WordPage}
+        options={{
+          title: 'Word Page',
           headerStyle: {
             backgroundColor: '#0869ae',
           },

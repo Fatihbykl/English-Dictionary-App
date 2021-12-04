@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, Touchable } from "react-native";
 import { globalStyles } from "../styles/globalStyles";
 import { AntDesign, FontAwesome, Entypo } from '@expo/vector-icons';
-import { db } from '../App';
+import { db } from '../screens/Home';
 
 export default function WordPage({ route }) {
     const [meanings, setMeanings] = React.useState([]);
@@ -11,6 +11,7 @@ export default function WordPage({ route }) {
     const [origin, setOrigin] = React.useState("");
     const [isBookmarked, setIsBookmarked] = React.useState(false);
     const [bookmarkIcon, setBookmarkIcon] = React.useState("");
+    const [wordExists, setWordExists] = React.useState(true);
 
 
     const { word } = route.params;
@@ -23,11 +24,15 @@ export default function WordPage({ route }) {
             setAudio(responseJson[0].phonetics[0].audio);
             setOrigin(responseJson[0].origin);
         })
-        .catch((error) => console.log(error))
+        .catch((error) => {
+            setWordExists(false);
+            console.log(error);
+        })
         .finally(() => setIsLoaded(true))
     }
 
     const Bookmark = () => {
+        if(!wordExists) { return; }
         if(isBookmarked) {
             deleteBookmark();
         }
@@ -70,6 +75,52 @@ export default function WordPage({ route }) {
         })
     }
 
+    const renderIfExists = () => {
+        if(wordExists) {
+            return(
+                <View style={globalStyles.wordPageContainer}>
+                    <Text style={globalStyles.wordPageHeader}>Origin</Text>
+                    <Text style={globalStyles.wordPageText}>{ origin }</Text>
+                    <View style={globalStyles.hr}></View>
+                    <Text style={globalStyles.wordPageHeader}>Meanings</Text>
+                    <View style={globalStyles.wordPageContainer}>
+                    {meanings.map( (m, index) => (
+                        <View key={index}>
+                            <View style={{flexDirection:"row"}}>
+                                <Entypo name="dot-single" size={28} color="black" />
+                                <Text style={globalStyles.wordPageHeader}>{ m.partOfSpeech }</Text>
+                            </View>
+                            <View style={{paddingHorizontal:30}}>
+                                {m.definitions.map( (definition, index) => (
+                                    <View key={index} style={{marginBottom: 20}}>
+                                        <View style={{flexDirection:"row"}}>
+                                            <Entypo name="arrow-long-right" size={24} color="black" />
+                                            <Text style={[globalStyles.wordPageText, {marginLeft: 5}]}>{ definition.definition }</Text>
+                                            
+                                        </View>
+                                        <View style={{marginTop:10}}>
+                                            <Text style={globalStyles.wordPageText}>
+                                                { definition.example }
+                                            </Text>
+                                        </View>
+                                    </View>
+                                ))}
+                            </View>
+                        </View>
+                    ))}
+                    </View>
+                </View>
+            )
+        }
+        else {
+            return(
+                <View style={globalStyles.wordPageContainer}>
+                    <Text style={globalStyles.wordPageHeader}>Sorry, we couldn't find "{ word }".</Text>
+                </View>
+            )
+        }
+    }
+
     const getBookmark = () => {
         db.transaction(txn => {
             txn.executeSql(
@@ -79,7 +130,6 @@ export default function WordPage({ route }) {
                     console.log("notes retrieved succesfully");
 
                     let len = res.rows.length;
-                    console.log("row length ->>>> " + len);
                     if (len > 0) {
                         setIsBookmarked(true);
                         console.log(isBookmarked);
@@ -115,38 +165,7 @@ export default function WordPage({ route }) {
                 </View>
             </View>
             <ScrollView>
-                <View style={globalStyles.wordPageContainer}>
-                    <Text style={globalStyles.wordPageHeader}>Origin</Text>
-                    <Text style={globalStyles.wordPageText}>{ origin }</Text>
-                    <View style={[globalStyles.hr, {marginTop:10, width:'95%'}]}></View>
-                    <Text style={globalStyles.wordPageHeader}>Meanings</Text>
-                    <View style={globalStyles.wordPageContainer}>
-                    {meanings.map( m => (
-                        <View>
-                            <View style={{flexDirection:"row"}}>
-                                <Entypo name="dot-single" size={28} color="black" />
-                                <Text style={globalStyles.wordPageHeader}>{ m.partOfSpeech }</Text>
-                            </View>
-                            <View style={{paddingHorizontal:30}}>
-                                {m.definitions.map( definition => (
-                                    <View style={{marginBottom: 20}}>
-                                        <View style={{flexDirection:"row"}}>
-                                            <Entypo name="arrow-long-right" size={24} color="black" />
-                                            <Text style={[globalStyles.wordPageText, {marginLeft: 5}]}>{ definition.definition }</Text>
-                                            
-                                        </View>
-                                        <View style={{marginTop:10}}>
-                                            <Text style={globalStyles.wordPageText}>
-                                                { definition.example }
-                                            </Text>
-                                        </View>
-                                    </View>
-                                ))}
-                            </View>
-                        </View>
-                    ))}
-                    </View>
-                </View>
+                {renderIfExists()}
             </ScrollView>
         </View>
     )

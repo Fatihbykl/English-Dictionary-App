@@ -10,7 +10,7 @@ export default function Search({navigation}) {
             <View style={[globalStyles.row_button, {height:200, marginTop:50, flexDirection:"column"}]}>
                 <TextInput style={globalStyles.input} placeholder='Ex: hope' onChangeText={setWord} value={word} />
                 <TouchableOpacity style={globalStyles.search_button} onPress={() => {navigation.navigate('WordPage', {word: word})}}>
-                    <Text>Search</Text>
+                    <Text style={globalStyles.buttonText}>Search</Text>
                 </TouchableOpacity>
             </View>
         </View>

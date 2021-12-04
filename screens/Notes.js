@@ -1,14 +1,15 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, Modal, FlatList } from "react-native";
 import { globalStyles } from "../styles/globalStyles";
-import { MaterialIcons } from '@expo/vector-icons';
-import { db } from '../App';
+import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { db } from '../screens/Home';
 
 export default function Notes() {
     const [visible, setVisible] = React.useState(false);
     const [noteTitle, setNoteTitle] = React.useState("");
     const [note, setNote] = React.useState("");
     const [notes, setNotes] = React.useState([]);
+    const [render, setRender] = React.useState(0);
 
     const showModal = () => setVisible(true);
     const hideModal = () => setVisible(false);
@@ -20,12 +21,14 @@ export default function Notes() {
                 [noteTitle, note],
                 (sqlTxn, res) => {
                     console.log("note succesfully created");
+                    hideModal();
                 },
                 error => {
                   console.log("error when adding note " + error.message);
                 },
             )
         })
+        setRender(render => render + 1);
     }
 
     const getNotes = () => {
@@ -34,17 +37,16 @@ export default function Notes() {
                 `SELECT * FROM notes`,
                 [],
                 (sqlTxn, res) => {
-                    console.log("notes retrieved succesfully");
-
                     let len = res.rows.length;
                     if (len > 0) {
                         let results = [];
                         for (let i = 0; i < len; i++) {
                             let item = res.rows.item(i);
-                            results.push({noteTitle: item.title, note: item.note});
+                            results.push({id: item.id, noteTitle: item.title, note: item.note});
                         }
                         setNotes(results);
                     }
+                    console.log("notes retrieved succesfully");
                 },
                 error => {
                   console.log("error on getting notes " + error.message);
@@ -53,12 +55,33 @@ export default function Notes() {
         })
     }
 
+    const deleteNotes = (id) => {
+        db.transaction(txn => {
+            txn.executeSql(
+                `DELETE FROM notes WHERE id=(?)`,
+                [id],
+                (sqlTxn, res) => {
+                    console.log("note succesfully deleted");
+                    setRender(render => render + 1);
+                },
+                error => {
+                  console.log("error when deleting note: " + error.message);
+                },
+            )
+        })
+    }
+
     const renderNotes = ({ item }) => {
         return(
-            <View style={[globalStyles.row_button, {flexDirection:"column"}]}>
-                <View style={{flex:1}}>
-                <Text style={globalStyles.note_header}>{item.noteTitle}</Text>
-                <Text style={globalStyles.note_text}>{item.note}</Text>
+            <View style={[globalStyles.row_button, {flexDirection:"row", marginVertical:5}]}>
+                <View style={{flex:11}}>
+                    <Text style={globalStyles.note_header}>{item.noteTitle}</Text>
+                    <Text style={globalStyles.note_text}>{item.note}</Text>
+                </View>
+                <View style={{flex:1, justifyContent:"center"}}>
+                    <TouchableOpacity onPress={() => {deleteNotes(item.id)}}>
+                        <FontAwesome5 name="times" size={26} color="#0869ae" />
+                    </TouchableOpacity>
                 </View>
             </View>
         )
@@ -66,7 +89,7 @@ export default function Notes() {
 
     useEffect(() => {
         getNotes();
-    }, [])
+    }, [render])
     
 
     return(
@@ -83,8 +106,12 @@ export default function Notes() {
                   <Text style={[globalStyles.row_button_hText, {marginBottom:10, marginTop:20}]}>Note</Text>
                   <TextInput style={[globalStyles.input, {width:'100%', marginBottom: 30}]} onChangeText={setNote} value={note} />
                   <View style={{flexDirection:"row", width:'100%'}}>
-                    <TouchableOpacity style={[globalStyles.search_button, {flex:1, marginRight: 20, backgroundColor:'#eb265d'}]} onPress = {() => {hideModal()}}><Text>Close</Text></TouchableOpacity>
-                    <TouchableOpacity style={[{flex:1}, globalStyles.search_button]} onPress = {() => {addNote()}}><Text>Add</Text></TouchableOpacity>
+                    <TouchableOpacity style={[globalStyles.search_button, {flex:1, marginRight: 20, backgroundColor:'#eb265d'}]} onPress = {() => {hideModal()}}>
+                        <Text style={globalStyles.buttonText}>Close</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[{flex:1}, globalStyles.search_button]} onPress = {() => {addNote()}}>
+                        <Text style={globalStyles.buttonText}>Add</Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
             </Modal>
@@ -94,8 +121,8 @@ export default function Notes() {
                     <Text style={[globalStyles.row_button_hText,  {fontSize:20, marginLeft:5}]}>Add Note</Text>
                 </TouchableOpacity>
             </View>
-            <View style={[globalStyles.hr, {marginTop:10, width:'95%'}]}></View>
-            <FlatList data={notes} style={{width:'98%'}} renderItem={renderNotes} />
+            <View style={globalStyles.hr}></View>
+            <FlatList keyExtractor={item => item.id} data={notes} style={{width:'100%'}} renderItem={renderNotes} />
         </View>
     )
 }

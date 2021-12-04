@@ -9,43 +9,11 @@ import Search from './screens/Search';
 import Notes from './screens/Notes';
 import Bookmarks from './screens/Bookmarks'
 import { FontAwesome } from '@expo/vector-icons';
-import { openDatabase } from 'expo-sqlite';
 import WordPage from './screens/WordPage';
 
 const Stack = createNativeStackNavigator();
-export const db = openDatabase('database.db');
 
 export default function App() {
-
-  const createTables = () => {
-    db.transaction(txn => {
-      txn.executeSql(
-        `CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(50), note VARCHAR(300))`,
-        [],
-        (sqlTxn, res) => {
-          console.log("table NOTES succesfully created");
-        },
-        error => {
-          console.log("error on creating NOTES table " + error.message);
-        },
-      );
-      txn.executeSql(
-        `CREATE TABLE IF NOT EXISTS bookmarks (id INTEGER PRIMARY KEY AUTOINCREMENT, word VARCHAR(20))`,
-        [],
-        (sqlTxn, res) => {
-          console.log("table BOOKMARKS succesfully created");
-        },
-        error => {
-          console.log("error on creating BOOKMARKS table " + error.message);
-        },
-      );
-    });
-  };
-
-  useEffect(async () => {
-    await createTables();
-  }, []);
-
   return (
     <NavigationContainer>
       <Stack.Navigator>

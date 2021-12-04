@@ -1,17 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View, Text, Button, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { Ionicons, Feather, FontAwesome, Foundation, MaterialIcons } from '@expo/vector-icons';
 import { globalStyles } from '../styles/globalStyles';
+import { randomWordList } from '../randomWords';
+import { openDatabase } from 'expo-sqlite';
+
+export const db = openDatabase('database.db');
 
 export default function Home({ navigation }) {
-
-    const pressHandler = (props) => {
-        navigation.navigate(props);
+    const getRandomWord = () => {
+        let randomWord = "";
+        randomWord = randomWordList[Math.floor(Math.random() * randomWordList.length)];
+        navigation.navigate('WordPage', { word: randomWord });
     }
+
+    const createTables = () => {
+        db.transaction(txn => {
+          txn.executeSql(
+            `CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(50), note VARCHAR(300))`,
+            [],
+            (sqlTxn, res) => {
+              console.log("table NOTES succesfully created");
+            },
+            error => {
+              console.log("error on creating NOTES table " + error.message);
+            },
+          );
+          txn.executeSql(
+            `CREATE TABLE IF NOT EXISTS bookmarks (id INTEGER PRIMARY KEY AUTOINCREMENT, word VARCHAR(20))`,
+            [],
+            (sqlTxn, res) => {
+              console.log("table BOOKMARKS succesfully created");
+            },
+            error => {
+              console.log("error on creating BOOKMARKS table " + error.message);
+            },
+            );
+        });
+    };
+    
+    useEffect(async () => {
+        await createTables();
+    }, []);
 
     return(
         <View style={globalStyles.container}>
-            
                 <View style={globalStyles.row_button}>
                     <View style={{flex:1}}>
                         <Feather name="search" size={32} color="#0869ae" />
@@ -34,13 +67,12 @@ export default function Home({ navigation }) {
                         </TouchableOpacity>
                     </View>
                 </View>
-            
             <View style={globalStyles.row_button}>
                 <View style={{flex:1}}>
                 <FontAwesome name="random" size={32} color="#0869ae" />
                 </View>
                 <View style={{flex:5}}>
-                    <TouchableOpacity onPress={() => {navigation.navigate('RandomWord')}}>
+                    <TouchableOpacity onPress={() => {getRandomWord()}}>
                         <Text style={globalStyles.row_button_hText}>Random Word</Text>
                         <Text style={globalStyles.row_button_text}>Explore new words!</Text>
                     </TouchableOpacity>
@@ -59,12 +91,12 @@ export default function Home({ navigation }) {
             </View>
             <View style={globalStyles.row_button}>
                 <View style={{flex:1}}>
-                <MaterialIcons name="translate" size={32} color="#0869ae" />
+                <FontAwesome name="star" size={32} color="#0869ae" />
                 </View>
                 <View style={{flex:5}}>
-                    <TouchableOpacity onPress={() => {navigation.navigate('Translate')}}>
-                        <Text style={globalStyles.row_button_hText}>Translate</Text>
-                        <Text style={globalStyles.row_button_text}>Translate to your native language.</Text>
+                    <TouchableOpacity onPress={() => {}}>
+                        <Text style={globalStyles.row_button_hText}>Rate Us</Text>
+                        <Text style={globalStyles.row_button_text}>Visit our Google Play page.</Text>
                     </TouchableOpacity>
                 </View>
             </View>

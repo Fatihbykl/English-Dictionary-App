@@ -8,7 +8,7 @@ export const globalStyles = StyleSheet.create({
     },
 
     row_button: {
-      width: '98%',
+      width: '100%',
       minHeight: 100,
       backgroundColor: '#fff',
       padding: 30,
@@ -64,6 +64,8 @@ export const globalStyles = StyleSheet.create({
     hr: {
       borderBottomColor: '#0869ae',
       borderBottomWidth: 1,
+      width: '100%',
+      marginVertical: 10,
     },
 
     modal: {
@@ -109,4 +111,9 @@ export const globalStyles = StyleSheet.create({
       color: "black",
       fontSize: 16,
     },
+
+    buttonText: {
+      color:"white", 
+      fontWeight:"bold",
+    }
 });

@@ -7,6 +7,7 @@ import Home from './screens/Home';
 import RandomWord from './screens/RandomWord';
 import Search from './screens/Search';
 import Notes from './screens/Notes';
+import Bookmarks from './screens/Bookmarks'
 import { FontAwesome } from '@expo/vector-icons';
 import { openDatabase } from 'expo-sqlite';
 import WordPage from './screens/WordPage';
@@ -59,6 +60,19 @@ export default function App() {
           headerLeft: () => (
             <FontAwesome name="home" size={30} color="white" style={{marginLeft: 10}} />
           ),
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }} />
+        <Stack.Screen
+        name="Bookmarks"
+        component={Bookmarks}
+        options={{
+          title: 'Bookmarks',
+          headerStyle: {
+            backgroundColor: '#0869ae',
+          },
           headerTintColor: '#fff',
           headerTitleStyle: {
             fontWeight: 'bold',

@@ -2,7 +2,6 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Home';
-import RandomWord from './screens/RandomWord';
 import Search from './screens/Search';
 import Notes from './screens/Notes';
 import Bookmarks from './screens/Bookmarks'
@@ -38,19 +37,6 @@ export default function App() {
           title: 'Bookmarks',
           headerStyle: {
             backgroundColor: '#ff5722',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }} />
-        <Stack.Screen 
-        name="RandomWord" 
-        component={RandomWord}
-        options={{
-          title: 'Random Word',
-          headerStyle: {
-            backgroundColor: '#0869ae',
           },
           headerTintColor: '#fff',
           headerTitleStyle: {

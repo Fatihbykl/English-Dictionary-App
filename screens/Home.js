@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text, TouchableOpacity, Linking } from 'react-native';
+import { View, Text, TouchableOpacity, Linking, SafeAreaView } from 'react-native';
 import { Ionicons, Feather, FontAwesome, Foundation } from '@expo/vector-icons';
 import { globalStyles } from '../styles/globalStyles';
 import { randomWordList } from '../randomWords';
@@ -40,7 +40,7 @@ export default function Home({ navigation }) {
     };
 
     const openPlayStore = () => {
-        Linking.openURL(`market://details?id=com.whatsapp`,)
+        Linking.openURL(`https://play.google.com/store/apps/dev?id=7242067700944795342`)
         .catch(
               (err) => alert('Please check for Google Play Store')
             );
@@ -51,7 +51,7 @@ export default function Home({ navigation }) {
     }, []);
 
     return(
-        <View style={globalStyles.container}>
+        <SafeAreaView style={globalStyles.container}>
                 <View style={globalStyles.row_button}>
                     <View style={{flex:1}}>
                         <Feather name="search" size={32} color="#0869ae" />
@@ -107,6 +107,6 @@ export default function Home({ navigation }) {
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }

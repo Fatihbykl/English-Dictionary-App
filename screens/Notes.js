@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, Modal, FlatList } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Modal, FlatList, SafeAreaView } from "react-native";
 import { globalStyles } from "../styles/globalStyles";
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { db } from '../screens/Home';
@@ -22,13 +22,14 @@ export default function Notes() {
                 (sqlTxn, res) => {
                     console.log("note succesfully created");
                     hideModal();
+                    setRender(render => render + 1);
                 },
                 error => {
                   console.log("error when adding note " + error.message);
                 },
             )
         })
-        setRender(render => render + 1);
+        
     }
 
     const getNotes = () => {
@@ -45,7 +46,9 @@ export default function Notes() {
                             results.push({id: item.id, noteTitle: item.title, note: item.note});
                         }
                         setNotes(results);
+                        console.log("----> " + notes);
                     }
+                    else { setNotes(""); }
                     console.log("notes retrieved succesfully");
                 },
                 error => {
@@ -89,11 +92,13 @@ export default function Notes() {
 
     useEffect(() => {
         getNotes();
+        setNoteTitle("");
+        setNote("");
     }, [render])
     
 
     return(
-        <View style={globalStyles.container}>
+        <SafeAreaView style={globalStyles.container}>
             <Modal
                 animationType = {"slide"} 
                 transparent = {true}
@@ -123,6 +128,6 @@ export default function Notes() {
             </View>
             <View style={globalStyles.hr}></View>
             <FlatList keyExtractor={item => item.id} data={notes} style={{width:'100%'}} renderItem={renderNotes} />
-        </View>
+        </SafeAreaView>
     )
 }

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, SafeAreaView } from "react-native";
 import { globalStyles } from "../styles/globalStyles";
 import { db } from '../screens/Home';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -23,6 +23,7 @@ export default function Bookmarks({navigation}) {
                         }
                         setWords(results);
                     }
+                    else { setWords(""); }
                     console.log("bookmarks retrieved succesfully");
                 },
                 error => {
@@ -70,8 +71,8 @@ export default function Bookmarks({navigation}) {
     }, [render])
 
     return(
-        <View style={globalStyles.container}>
+        <SafeAreaView style={globalStyles.container}>
             <FlatList keyExtractor={item => item.id} data={words} style={{width:'100%'}} renderItem={renderBookmarks} />
-        </View>
+        </SafeAreaView>
     )
 }

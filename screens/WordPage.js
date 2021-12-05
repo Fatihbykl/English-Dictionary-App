@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text, TouchableOpacity, ScrollView, Touchable } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, Touchable, SafeAreaView } from "react-native";
 import { globalStyles } from "../styles/globalStyles";
 import { AntDesign, FontAwesome, Entypo } from '@expo/vector-icons';
 import { db } from '../screens/Home';
@@ -152,12 +152,9 @@ export default function WordPage({ route }) {
     });
 
     return(
-        <View style={[globalStyles.container, {height:'100%'}]}>
+        <SafeAreaView style={[globalStyles.container, {height:'100%'}]}>
             <View style={globalStyles.header}>
-                <TouchableOpacity onPress={() => {playSound()}}>
-                    <AntDesign name="sound" size={24} color="white" />
-                </TouchableOpacity>
-                <Text style={{marginLeft: 20, color: "white", fontSize: 16}}>{word}</Text>
+                <Text style={{color: "white", fontSize: 16, fontWeight:"bold"}}>{word}</Text>
                 <View style={{alignItems:"flex-end", flex: 1}}>
                     <TouchableOpacity onPress={() => {Bookmark()}}>
                         <FontAwesome name={bookmarkIcon} size={24} color="white"/>
@@ -167,6 +164,6 @@ export default function WordPage({ route }) {
             <ScrollView>
                 {renderIfExists()}
             </ScrollView>
-        </View>
+        </SafeAreaView>
     )
 }

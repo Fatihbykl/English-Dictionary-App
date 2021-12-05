@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, FlatList } from "react-native";
+import { View, Text, TouchableOpacity, FlatList } from "react-native";
 import { globalStyles } from "../styles/globalStyles";
 import { db } from '../screens/Home';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -51,13 +51,13 @@ export default function Bookmarks({navigation}) {
     const renderBookmarks = ({item}) => {
         return(
             <TouchableOpacity onPress={() => {navigation.navigate('WordPage', {word:item.word})}}>
-                <View style={[globalStyles.row_button, {minHeight:20, padding:20, margin:3, flexDirection:"row", justifyContent:"left"}]}>
+                <View style={[globalStyles.row_button, {minHeight:20, padding:20, margin:3, flexDirection:"row"}]}>
                     <View style={{flex:11}}>
                         <Text style={{fontSize: 16, color:"black"}}>{item.word}</Text>
                     </View>
                     <View style={{flex:1}}>
-                        <TouchableOpacity style={{justifyContent:"end"}} onPress={() => {deleteBookmark(item.id)}}>
-                            <FontAwesome5 name="times" size={26} color="#0869ae" />
+                        <TouchableOpacity onPress={() => {deleteBookmark(item.id)}}>
+                            <FontAwesome5 name="times" size={26} color="#ff5722" />
                         </TouchableOpacity>
                     </View>
                 </View>

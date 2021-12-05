@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, Text, Button, TouchableHighlight, TouchableOpacity } from 'react-native';
-import { Ionicons, Feather, FontAwesome, Foundation, MaterialIcons } from '@expo/vector-icons';
+import { View, Text, TouchableOpacity, Linking } from 'react-native';
+import { Ionicons, Feather, FontAwesome, Foundation } from '@expo/vector-icons';
 import { globalStyles } from '../styles/globalStyles';
 import { randomWordList } from '../randomWords';
 import { openDatabase } from 'expo-sqlite';
@@ -38,6 +38,13 @@ export default function Home({ navigation }) {
             );
         });
     };
+
+    const openPlayStore = () => {
+        Linking.openURL(`market://details?id=com.whatsapp`,)
+        .catch(
+              (err) => alert('Please check for Google Play Store')
+            );
+    }
     
     useEffect(async () => {
         await createTables();
@@ -94,7 +101,7 @@ export default function Home({ navigation }) {
                 <FontAwesome name="star" size={32} color="#0869ae" />
                 </View>
                 <View style={{flex:5}}>
-                    <TouchableOpacity onPress={() => {}}>
+                    <TouchableOpacity onPress={() => {openPlayStore()}}>
                         <Text style={globalStyles.row_button_hText}>Rate Us</Text>
                         <Text style={globalStyles.row_button_text}>Visit our Google Play page.</Text>
                     </TouchableOpacity>

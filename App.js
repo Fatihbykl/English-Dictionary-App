@@ -1,6 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Home';
@@ -39,7 +37,7 @@ export default function App() {
         options={{
           title: 'Bookmarks',
           headerStyle: {
-            backgroundColor: '#0869ae',
+            backgroundColor: '#ff5722',
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
@@ -78,7 +76,7 @@ export default function App() {
         options={{
           title: 'Notes',
           headerStyle: {
-            backgroundColor: '#0869ae',
+            backgroundColor: '#673ab7',
           },
           headerTintColor: '#fff',
           headerTitleStyle: {

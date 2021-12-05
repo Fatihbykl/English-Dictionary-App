@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, ScrollView, Touchable } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, Touchable } from "react-native";
 import { globalStyles } from "../styles/globalStyles";
 import { AntDesign, FontAwesome, Entypo } from '@expo/vector-icons';
 import { db } from '../screens/Home';

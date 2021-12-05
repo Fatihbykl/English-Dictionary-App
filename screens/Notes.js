@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity, Modal, FlatList } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Modal, FlatList } from "react-native";
 import { globalStyles } from "../styles/globalStyles";
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { db } from '../screens/Home';
@@ -80,7 +80,7 @@ export default function Notes() {
                 </View>
                 <View style={{flex:1, justifyContent:"center"}}>
                     <TouchableOpacity onPress={() => {deleteNotes(item.id)}}>
-                        <FontAwesome5 name="times" size={26} color="#0869ae" />
+                        <FontAwesome5 name="times" size={26} color="#673ab7" />
                     </TouchableOpacity>
                 </View>
             </View>

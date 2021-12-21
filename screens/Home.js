@@ -40,7 +40,7 @@ export default function Home({ navigation }) {
     };
 
     const openPlayStore = () => {
-        Linking.openURL(`https://play.google.com/store/apps/dev?id=7242067700944795342`)
+        Linking.openURL(`market://details?id=com.devbayk.dictionary`)
         .catch(
               (err) => alert('Please check for Google Play Store')
             );
